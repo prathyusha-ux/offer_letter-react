@@ -1,0 +1,667 @@
+*{ box-sizing: border-box; }
+
+:root {
+  --blue: #1155cc;
+  --accent: #3d5fe1;
+  --accent-dark: #2f4bc4;
+}
+
+/* Site-wide font stack: Calibri if installed (mainly Windows/Office), else
+   Carlito (loaded as a web font in index.html — metrically identical to
+   Calibri), else a generic system sans-serif as a last resort. */
+body {
+  background-color: #f5f5f5;
+  font-family: Calibri, Carlito, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 0 24px;
+  color: #111111;
+}
+
+.page-header{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  margin-bottom: 24px;
+}
+.page-header-top-row{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 14px; /* gap between the header logo and the title */
+}
+.page-header-logo{
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.history-search-block{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.history-search-label{
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  margin: 0 0 6px;
+  white-space: nowrap;
+}
+.page-header-top-row .history-search-row{
+  margin-bottom: 0;
+  width: 520px;
+  max-width: 520px;
+}
+#searchResults{
+  margin-top: 8px;
+}
+#searchResults:empty{
+  display: none;
+}
+.page-header h1,
+.page-header .page-subtitle{
+  margin-bottom: 0;
+}
+
+/* App title (not part of the letter) — per Style Sizes doc: 28px, weight 700,
+   gradient #E23A8E -> #7B4DE0 -> #2E9DE0 */
+.gradient-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  background: linear-gradient(90deg, #E23A8E 0%, #7B4DE0 50%, #2E9DE0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #7B4DE0; /* fallback for browsers without background-clip:text support */
+  display: inline-block;
+}
+
+.page-subtitle{
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0 0 24px;
+}
+
+/* ---------- Find-a-letter search row (used inside page-header-top-row) ---------- */
+.history-search-row{
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.history-search-row input{
+  flex: 1;
+  border-radius: 50px;
+  padding: 7px 14px 7px 44px;
+  font-size: 13px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 16px center;
+}
+.history-search-row button{
+  padding: 7px 18px;
+  font-size: 12px;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+
+#offerForm{
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  border: 1px solid #eceef1;
+  padding: 28px 28px 24px;
+  margin-bottom: 28px;
+}
+
+.search-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 14px;
+  color: #111111;
+}
+
+.search-row {
+  display: flex;
+  gap: 10px;
+}
+.search-row input {
+  flex: 1;
+}
+.search-row .btn-primary {
+  padding: 0 22px;
+  border-radius: 8px;
+}
+
+#searchResults {
+  margin-top: 14px;
+}
+.search-empty {
+  color: #666;
+  font-style: italic;
+  font-size: 14px;
+  margin: 8px 0 0;
+}
+.search-result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+.search-result-row:last-child {
+  border-bottom: none;
+}
+.search-result-row a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.search-result-row a:hover {
+  text-decoration: underline;
+}
+.search-no-pdf {
+  color: #999;
+  font-size: 13px;
+}
+
+p {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
+.page-body{
+  text-align: justify;
+}
+
+.page .salary-table td,
+.page .salary-table th{
+  vertical-align: middle;
+}
+
+/* ---------- Grid layout (4 columns, matches reference) ---------- */
+
+.form-grid{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px 24px;
+  margin-bottom: 28px;
+}
+
+.field-group{
+  display: flex;
+  flex-direction: column;
+}
+
+.field-group.span-2{
+  grid-column: span 2;
+}
+
+label{
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+input, select, textarea{
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 15px;
+  background-color: #ffffff;
+  color: #111111;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-family: inherit;
+}
+
+input:focus, select:focus, textarea:focus{
+  outline: none;
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 2px rgba(139,92,246,0.15);
+}
+
+textarea{
+  resize: vertical;
+  min-height: 42px;
+}
+
+input[readonly]{
+  background-color: #f0f0f0;
+  color: #666666;
+}
+
+/* ---------- Toggle rows (radio Yes/No, bond checkbox) ---------- */
+
+.radio-row{
+  display:flex;
+  gap:16px;
+  align-items:center;
+  height: 40px;
+}
+.radio-option{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  font-weight:500;
+  font-size:14px;
+  color:#111111;
+  margin:0;
+  cursor:pointer;
+}
+.radio-option input[type="radio"]{
+  width:auto;
+  margin:0;
+  cursor:pointer;
+}
+
+.toggle-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  height: 40px;
+}
+.toggle-row input{
+  width:auto;
+}
+.toggle-row label{
+  margin:0;
+}
+
+/* ---------- Conditionally hidden field groups ---------- */
+
+#customLocationField, #bondFields, #variablePayToggleFields, #pfFields, #tdsFields{
+  display:none;
+}
+#customLocationField.show, #bondFields.show, #variablePayToggleFields.show,
+#pfFields.show, #tdsFields.show{
+  display:flex;
+}
+
+/* ---------- Buttons ---------- */
+
+.button-row{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.secondary-buttons{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 24px;
+}
+
+button{
+  padding: 6px 10px;
+  background: #ffffff;
+  color: #111111;
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+button:hover{
+  background: #f0f0f0;
+}
+
+.btn-primary{
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+}
+.btn-primary:hover{
+  background: var(--accent-dark);
+}
+.btn-wide{
+  width: 160px;
+  max-width: 100%;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 8px;
+  margin-bottom: 4px;
+}
+
+button:disabled{
+  background:#c7c9f5;
+  color:#ffffff;
+  cursor:not-allowed;
+  border:none;
+}
+button.icon-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+#editBtn{
+  background:#2e7d32;
+  color:#fff;
+  border:none;
+}
+#editBtn:hover{ background:#1b5e20; }
+#editBtn.active{ background:#c62828; }
+#editBtn.active:hover{ background:#a02020; }
+
+/* ---------- Status / hint text ---------- */
+
+#previewStatus{
+  font-size:13px;
+  font-weight:bold;
+}
+#editHint{
+  font-size:12px;
+  color:#0b63e5;
+  font-weight:600;
+  display:none;
+  margin-top:8px;
+}
+#editHint.show{ display:block; }
+#letterEmpty{
+  color:#555;
+  font-style:italic;
+}
+
+/* ---------- Letter output / pages ----------
+ * Letter styling follows the "Style Sizes" reference doc (section 1,
+ * on-screen preview). The PDF is a screenshot of this preview, so these
+ * same values apply to the downloaded/emailed PDF too.
+ * ------------------------------------------------------------------ */
+
+#letterOutput{
+  display:none;
+  max-width: none;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+#letterOutput.show{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  margin-top: 20px;
+}
+.page{
+  width: 210mm;
+  min-height: 297mm;
+  background: #fff;
+  color: #1a1a1a;
+  padding: 44px 44px 22px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  page-break-after: always;
+  break-after: page;
+  font-family: Calibri, Carlito, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.5;
+}
+.page:last-child{
+  page-break-after: auto;
+  break-after: auto;
+}
+
+.page p{
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: none;
+  orphans: 3;
+  widows: 3;
+  line-height: 1.5;
+  margin: 0 0 13px;
+}
+
+/* Tighter spacing between paragraphs that are sub-points of the same
+   clause (e.g. Job Title, Hours and Place of Work) — normal 13px spacing
+   still applies before/after headings and between unrelated paragraphs. */
+.page .tight-group p{
+  margin: 0 0 4px;
+}
+.page .tight-group p:last-child{
+  margin-bottom: 13px;
+}
+.page h3{
+  text-align: left;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 20px 0 10px;
+  letter-spacing: 0.3px;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+.page h3:first-child{
+  margin-top: 0;
+}
+
+.page ul{
+  text-align: left;
+  margin: 0 0 13px 22px;
+}
+
+.page ul li{
+  margin-bottom: 5px;
+}
+
+/* Letter heading: 16px, bold, underlined, centered, #1a1a1a, 20px below */
+.page .letter-title{
+  font-size: 16px;
+  font-weight: 700;
+  font-style: normal;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: underline;
+  color: #1a1a1a;
+  letter-spacing: 0.4px;
+  margin: 0 0 20px;
+}
+
+.page .company-name{ font-weight: 700; font-size: 13px; color: #111; }
+.page .company-tagline{ font-size: 10px; color: #555; }
+
+/* Salary table */
+.page .salary-table{
+  font-size: 14px;
+  width:100%;
+  border-collapse:collapse;
+  margin:16px 0;
+  border: 1px solid #000;
+}
+.page .salary-table th{
+  background:#e6e6e6;
+  color:#000;
+  text-align:left;
+  padding:10px 14px;
+  font-weight:700;
+  border: 1px solid #000;
+}
+.page .salary-table th.num, .page .salary-table td.num{ text-align:right; }
+.page .salary-table td{ padding:9px 14px; border: 1px solid #000; }
+/* Ending CTC row: label + round monthly and yearly CTC (e.g. "12 LPA") */
+.page .salary-table td.ctc-box{
+  text-align: left;
+  font-weight: 700;
+  background: #e6e6e6;
+  border: 1px solid #000;
+}
+.page .salary-table td.ctc-box.num{
+  text-align: right;
+}
+.page .salary-table tr.subhead td{
+  font-weight:bold;
+  background:#fff;
+  border: 1px solid #000;
+}
+.page .salary-table tr.total td{
+  font-weight:bold;
+  background:#fff;
+  border: 1px solid #000;
+}
+
+.page .letter-foot-note{
+  font-size: 11px;
+  color:#111;
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+
+/* Sign block */
+.page .sign-block{ margin-top: 16px; }
+.page .sign-line{
+  display:flex;
+  gap:10px;
+  margin-bottom:14px;
+  align-items: baseline;
+}
+.page .sign-line .lbl{
+  width:90px;
+  font-size:14px;
+  color:#111;
+  font-weight:bold;
+}
+.page .sign-line .fill{
+  flex: 0 0 200px;
+  border-bottom:1px solid #111;
+  min-height:20px;
+  align-self: flex-end;
+}
+.page .sign-block,
+.page .sign-line,
+.page .sign-caption{
+  text-align: left;
+}
+.page .sign-caption{
+  margin-bottom: 14px;
+}
+
+/* Regards line (Page 4) */
+.page .regards-line{ margin-top: 20px; margin-bottom: 8px; }
+.page .regards-label{ color:#111; font-size:15px; font-weight:bold; }
+
+/* Stamp / signature: max 90px high, max 220px wide */
+.page .stamp-img{
+  width: auto;
+  height: auto;
+  max-height: 90px;
+  max-width: 220px;
+  margin-top: 6px;
+  display: block;
+}
+
+.page-body{ flex: 1 0 auto; }
+
+/* Logo: max 110px high (enlarged from the doc's 52px), max 200px wide,
+   contained, 16px of space below */
+.letterhead{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  padding-bottom: 0;
+}
+.logo-img{
+  width: auto;
+  height: auto;
+  max-height: 110px;
+  max-width: 200px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+#letterOutput.editing .page{
+  outline:2px dashed #0b63e5;
+  outline-offset:6px;
+}
+#letterOutput.editing .page-body[contenteditable="true"]:focus{
+  outline:2px solid #0b63e5;
+}
+
+.salary-table tr, .letter-sheet h3, .sign-block, .sign-line{
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+/* Footer: 13px bold #2457D6, centered, full width, 1px solid #b8bcc4 top
+   border, 10px of space above the text */
+.letter-footer{
+  padding-top: 10px;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.letter-footer-row {
+  width: 100%;
+  margin-top: auto;
+  border-top: 1px solid #b8bcc4;
+  padding-top: 10px;
+  text-align: center;
+}
+
+.letter-footer-row h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  font-style: normal;
+  color: #2457D6;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px){
+  .form-grid{ grid-template-columns: repeat(2, 1fr); }
+  .field-group.span-2{ grid-column: span 2; }
+}
+@media (max-width: 560px){
+  .form-grid{ grid-template-columns: 1fr; }
+  .field-group.span-2{ grid-column: span 1; }
+}
+
+@media print{
+  form, h1{ display:none !important; }
+  #letterOutput{ border:none; padding:0; }
+  .page{ border: none; margin: 0; box-shadow: none; }
+  #letterOutput.show{ gap: 0; }
+}
+
+/* ---------- Added for the React version ---------- */
+
+/* Inline validation message under a field */
+.field-error{
+  color: #c62828;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Email input + button row under the secondary buttons */
+.email-row{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 14px;
+}
+.email-row input{
+  flex: 0 1 320px;
+  width: auto;
+}
